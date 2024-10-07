@@ -1,0 +1,391 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #fff;
+    overflow-x: hidden;
+    padding-top: 60px; /* হেডারের জায়গা রাখতে উপরের প্যাডিং */
+    padding-bottom: 60px; /* ফুটারের জায়গা রাখতে নিচের প্যাডিং */
+}
+
+.header {
+    background-color: #222;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed; /* স্থির রাখা */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff0066;
+}
+
+.header .search-bar {
+    flex-grow: 1;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+a {
+    text-decoration: none;
+}
+        .pop-out-button {
+            background-color: ragb(0,0,0,05);
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+.header .search-bar input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.header .search-bar .search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 16px;
+    color: #ff0066;
+    cursor: pointer;
+}
+
+.header .menu-icon {
+    font-size: 24px;
+    color: #ff0066;
+    cursor: pointer;
+}
+
+.drawer {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #222;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+    z-index: 999;
+}
+
+.drawer a {
+    padding: 10px 20px;
+    text-decoration: none; /* আন্ডারলাইন সরানো */
+    font-size: 20px;
+    color: #fff;
+    display: block;
+    transition: 0.3s;
+}
+
+.drawer a:hover {
+    background-color: #ff0066;
+}
+
+.drawer .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #ff0066;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 998;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    background-color: #222;
+    justify-content: center;
+}
+
+.tags .tag {
+    padding: 10px 20px;
+    background-color: #333;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tags .tag:hover {
+    background-color: #ff0066;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.video-card {
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+.thumbnail {
+    width: 100%;
+    height: auto;
+}
+
+.video-info {
+    padding: 15px;
+}
+
+.video-title {
+    font-size: 18px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    color: #ff0066;
+}
+
+.video-description {
+    font-size: 14px;
+    text-decoration: none;
+    color: #ccc;
+}
+
+.footer {
+    background-color: #222;
+    padding: 20px;
+    text-align: center;
+    color: #aaa;
+    position: fixed; /* স্থির রাখা */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.footer a {
+    color: #ff0066;
+    text-decoration: none; /* আন্ডারলাইন সরানো */
+    margin: 0 10px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .header .search-bar {
+        margin: 0 10px;
+    }
+
+    .header .logo {
+        font-size: 20px;
+    }
+
+    .header .menu-icon {
+        font-size: 20px;
+    }
+
+    .tags .tag {
+        padding: 8px 15px;
+    }
+
+    .video-title {
+        font-size: 16px;
+    }
+
+    .video-description {
+        font-size: 12px;
+    }
+}
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #111;
+        color: #fff;
+        overflow-x: hidden;
+    }
+
+    .header {
+        background-color: #222;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ff0066;
+    }
+
+    .header .search-bar {
+        flex-grow: 1;
+        margin: 0 20px;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .header .search-bar input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        background-color: #333;
+        color: #fff;
+    }
+
+    .header .search-bar .search-icon {
+        position: absolute;
+        right: 10px;
+        font-size: 16px;
+        color: #ff0066;
+        cursor: pointer;
+    }
+
+    .header .menu-icon {
+        font-size: 24px;
+        color: #ff0066;
+        cursor: pointer;
+    }
+
+    /* Drawer Menu */
+    .drawer {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #222;
+        overflow-x: hidden;
+        transition: 0.3s;
+        padding-top: 60px;
+        z-index: 999; /* Drawer এর ভিউ অগ্রাধিকার */
+    }
+
+    .drawer a {
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #fff;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .drawer a:hover {
+        background-color: #ff0066;
+    }
+
+    .drawer .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #ff0066;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none;
+        z-index: 998;
+    }
+
+    /* Video Player Section */
+    .video-player {
+        padding: 20px;
+        background-color: #222;
+    }
+
+    .video-container {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+    }
+
+    /* Footer */
+    .footer {
+        background-color: #222;
+        padding: 20px;
+        text-align: center;
+        color: #aaa;
+    }
+
+    .footer a {
+        color: #ff0066;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .header .search-bar {
+            margin: 0 10px;
+        }
+
+        .header .logo {
+            font-size: 20px;
+        }
+
+        .header .menu-icon {
+            font-size: 20px;
+        }
+    }
