@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Video Play UI with Drawer Menu</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">RUSOSKA</div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search..." oninput="filterVideos()">
+            <span class="search-icon" onclick="filterVideos()">&#128269;</span>
+        </div>
+        <div class="menu-icon" onclick="openDrawer()">&#9776;</div>
+    </header>
+
+    <!-- Drawer Menu -->
+    <div id="drawer" class="drawer">
+        <span class="close-btn" onclick="closeDrawer()">&times;</span>
+        <a href="#">Home</a>
+        <a href="#">New</a>
+        <a href="#">Trending</a>
+        <a href="#">Categories</a>
+        <a href="#">Models</a>
+        <a href="#">Channels</a>
+    </div>
+
+    <div id="overlay" class="overlay" onclick="closeDrawer()"></div>
+
+    <!-- Tags Section -->
+    <section class="tags">
+        <div class="tag" onclick="filterByTag('Tag 1')">Tag 1</div>
+        <div class="tag" onclick="filterByTag('Tag 2')">Tag 2</div>
+        <div class="tag" onclick="filterByTag('Tag 3')">Tag 3</div>
+        <div class="tag" onclick="filterByTag('Show All Tags')">Show All Tags</div>
+    </section>
+
+    <!-- Video Grid Section -->
+    <section class="video-grid" id="videoGrid">
+        <!-- ভিডিও কার্ডগুলো এখানে ডাইনামিক্যালি যোগ করা হবে -->
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 RUSOSKA. All rights reserved.</p>
+        <a href="#">Contact Us</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
