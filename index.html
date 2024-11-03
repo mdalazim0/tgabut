@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Background Remover</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff; /* সাদা ব্যাকগ্রাউন্ড */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* উপরের দিকে সেন্টার করুন */
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        #fileInput {
+            display: none; /* ডিফল্ট ফাইল ইনপুট скрыть করুন */
+        }
+
+        .custom-file-upload {
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            padding: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            color: #007bff;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #e9f7ff;
+        }
+
+        #result {
+            display: none; /* ছবি আপলোড না হওয়া পর্যন্ত скрыть করুন */
+            margin: 20px auto;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-warning {
+            background-color: #0560B3;
+            color: #fff;
+            display: none; /* ছবি তৈরি না হওয়া পর্যন্ত скрыть করুন */
+        }
+
+        .btn-warning:hover {
+            background-color: #000000;
+        }
+
+        .default-icon {
+            font-size: 50px;
+            margin: 20px 0;
+            color: #007bff;
+        }
+
+        /* Processing bar styles */
+        .processing-bar {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+            height: 20px;
+            background-color: #E9ECEF;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 30%; /* Set default progress to 30% */
+            background-color: #C934FF;
+            transition: width 0.5s ease;
+        }
+                /* Unique Background Blur */
+        #customBlurBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(8px);
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 10;
+        }
+
+        /* Unique Popup Style */
+        #customPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 11111;
+        }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2><img src="https://cdn-icons-png.flaticon.com/512/15861/15861170.png" alt="T Icon" width="20" height="20" style="vertical-align: middle;"> Remove Image Background</h2>
+        <form>
+            <div class="form-group">
+                <label for="fileInput"></label>
+                <div class="custom-file-upload" onclick="document.getElementById('fileInput').click();">
+                    <span class="default-icon"><img src="https://cdn-icons-png.flaticon.com/512/5175/5175601.png" alt="T Icon" width="70" height="70" style="vertical-align: middle;"></span>
+                    Click to Upload Image
+                </div>
+                <input id="fileInput" class="form-control" type="file" accept="image/*" onchange="submitHandler()">
+            </div>
+        </form>
+        <div class="processing-bar" id="processingBar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <img src="" id="result" alt="Result" />
+        <button class="btn btn-warning" id="downloadButton" onclick="downloadFile()">Download</button>
+    </div>
+<div id="customBlurBackground"></div>
+
+    <div id="customPopup">
+        <h3><svg fill="#000000" width="100px" height="100px" viewBox="-3.6 -3.6 43.20 43.20" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="#000000" stroke-width="0.00036"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.5040000000000001"></g><g id="SVGRepo_iconCarrier"> <title>no-wifi-line</title> <path class="clr-i-outline clr-i-outline-path-1" d="M18,24.42a4,4,0,1,0,4,4A4,4,0,0,0,18,24.42Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,18,30.42Z"></path><path class="clr-i-outline clr-i-outline-path-2" d="M26.21,21.85a1,1,0,0,0-.23-1.4,13.56,13.56,0,0,0-5-2.23l3.87,3.87A1,1,0,0,0,26.21,21.85Z"></path><path class="clr-i-outline clr-i-outline-path-3" d="M18.05,10.72a20.88,20.88,0,0,0-4.16.43l1.74,1.74a19,19,0,0,1,2.42-.17A18.76,18.76,0,0,1,28.64,16a1,1,0,0,0,1.12-1.65A20.75,20.75,0,0,0,18.05,10.72Z"></path><path class="clr-i-outline clr-i-outline-path-4" d="M33.55,8.2A28.11,28.11,0,0,0,8.11,5.36L9.69,6.93A26,26,0,0,1,32.45,9.87a1,1,0,0,0,1.1-1.67Z"></path><path class="clr-i-outline clr-i-outline-path-5" d="M1.84,4.75,4.27,7.18c-.62.34-1.23.7-1.83,1.1A1,1,0,1,0,3.56,9.94C4.26,9.47,5,9,5.74,8.65l3.87,3.87A20.59,20.59,0,0,0,6.23,14.4,1,1,0,0,0,7.36,16a18.82,18.82,0,0,1,3.77-2l4.16,4.16A13.51,13.51,0,0,0,10,20.55a1,1,0,0,0,1.18,1.61A11.52,11.52,0,0,1,17,20l10.8,10.8,1.41-1.41-26-26Z"></path> <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect> </g></svg></h3>
+        <h3>Oops! 🥺</h3>
+        <p>Please check your internet connection.</p>
+        <p id="reloadButton" onclick="refreshPage()"><svg height="50px" width="50px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.009 512.009" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle style="fill:#0000ff;" cx="256.005" cy="256.005" r="256.005"></circle> <path style="opacity:0.1;enable-background:new ;" d="M46.597,290.948c0-141.385,114.615-256,256-256 c47.122,0,91.262,12.745,129.184,34.956C385.924,26.574,324.069,0,256,0C114.615,0,0,114.615,0,256 c0,94.263,50.955,176.612,126.816,221.043C77.425,430.372,46.597,364.264,46.597,290.948z"></path> <g> <path style="fill:#FFFFFF;" d="M395.995,234.036L370.168,89.209l-36.742,36.742c-22.829-13.584-49.395-21.261-77.427-21.261 c-38.184,0-74.65,14.266-102.678,40.168c-27.86,25.748-44.943,60.686-48.101,98.377l69.652,5.836 c1.696-20.239,10.89-39.02,25.889-52.882c15.074-13.933,34.692-21.605,55.237-21.605c8.637,0,17.008,1.368,24.897,3.896 l-29.73,29.73L395.995,234.036z"></path> <path style="fill:#FFFFFF;" d="M105.221,277.962l25.828,144.829l36.742-36.742c22.829,13.584,49.395,21.261,77.427,21.261 c38.184,0,74.65-14.266,102.678-40.168c27.86-25.748,44.943-60.686,48.101-98.377l-69.652-5.836 c-1.696,20.239-10.89,39.02-25.889,52.882c-15.074,13.933-34.692,21.605-55.237,21.605c-8.637,0-17.008-1.368-24.897-3.896 l29.73-29.73L105.221,277.962z"></path> </g> </g></svg></p>
+    </div>
+    <script>
+        let imageURL;
+
+        function submitHandler(){
+            const fileInput = document.getElementById('fileInput');
+            const result = document.getElementById("result");
+            const downloadButton = document.getElementById("downloadButton");
+            const processingBar = document.getElementById("processingBar");
+            const progress = document.getElementById("progress");
+
+            const image = fileInput.files[0];
+            if (!image) {
+                alert("Please select an image.");
+                return;
+            }
+
+            // Show the processing bar
+            processingBar.style.display = 'block';
+            progress.style.width = '30%'; // Set progress to 30% initially
+
+            // Multipart file
+            const formData = new FormData();
+            formData.append('image_file', image);
+            formData.append('size', 'auto');
+
+            const apiKey = 'fwhcTfsoBZ3wrUFdigeH9VsN';
+
+            fetch('https://api.remove.bg/v1.0/removebg',{
+                method: 'POST',
+                headers: {
+                    'X-Api-Key': apiKey
+                },
+                body: formData
+            })
+            .then(function(response){
+                return response.blob();
+            })
+            .then(function(blob){
+                const url = URL.createObjectURL(blob);
+                imageURL = url;
+                result.src = url;
+                result.style.display = 'block'; // Show the result image
+                downloadButton.style.display = 'block'; // Show the download button
+                progress.style.width = '100%'; // Complete progress
+            })
+            .catch(function(error){
+                console.error('Error fetching the image:', error);
+                alert('An error occurred while processing the image.');
+            })
+            .finally(function() {
+                setTimeout(() => {
+                    processingBar.style.display = 'none'; // Hide the processing bar after completion
+                }, 1000);
+            });
+        }
+
+        function downloadFile(){
+            if (!imageURL) {
+                alert("No image available for download.");
+                return;
+            }
+            var anchorElement = document.createElement('a');
+            anchorElement.href = imageURL;
+            anchorElement.download = 'Removed_Background.png';
+            document.body.appendChild(anchorElement);
+            anchorElement.click();
+            document.body.removeChild(anchorElement);
+        }
+        const blurBackground = document.getElementById("customBlurBackground");
+        const popupElement = document.getElementById("customPopup");
+        
+        function showPopup() {
+            blurBackground.style.display = "block";
+            popupElement.style.display = "block";
+        }
+        
+        function hidePopup() {
+            blurBackground.style.display = "none";
+            popupElement.style.display = "none";
+        }
+        
+        function checkConnection() {
+            if (!navigator.onLine) {
+                // Show popup only when offline
+                showPopup();
+            } else if (blurBackground.style.display === "block") {
+                // Keep popup visible until reload button is clicked after connection is back
+                showPopup();
+            } else {
+                hidePopup(); // Hide if page loaded with online connection
+            }
+        }
+        
+        function refreshPage() {
+            if (navigator.onLine) {
+                // Redirect to a specific URL if online
+                window.location.href = 'go:removbg'; // Change to your desired URL
+            }
+        }
+        
+        // Listen only to the 'offline' event to show popup and 'online' event to check status after losing connection
+        window.addEventListener('offline', checkConnection);
+        
+        // Initial connection check
+        if (!navigator.onLine) {
+            showPopup();
+        } else {
+            hidePopup();
+        }
+    </script>
+</body>
+</html>
